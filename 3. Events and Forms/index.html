@@ -92,29 +92,30 @@
       });
 
       // Checkpoint 3.1 What is the difference between inline event handlers and addEventListener? When should you use one over the other?
-      // Answer:
+      // Answer: Inline event handlers are added directly inside HTML elements using attributes like "onclick". Inline event handlers
+      //         are more used for simpler cases for consiceness and simple way to associate with handlers. On the other hand, addEventListener
+      //         are often used for larger cases, which can add multiple handlers for the same event and promotes code organization.
 
       // Todo 3.5 add event listenders for the grandparent, parent, and child divs.
       //          When clicked, the grandparent, parent, and child should log "Grandparent", "Parent", and "Child" respectively
       // Resource: https://youtu.be/XF1_MlZ5l6M?si=QrNjKXg-xXV6yghW @ 4:00 of the video
-      const grandparent = document.querySelector(".grandparent");
-      const parent = document.querySelector(".parent");
-      const child = document.querySelector(".child");
+      // const grandparent = document.querySelector(".grandparent");
+      // const parent = document.querySelector(".parent");
+      // const child = document.querySelector(".child");
 
-      grandparent.addEventListener("click", () => {
-        console.log("Grandparent");
+      document.body.addEventListener("click", (e) => {
+        if (e.target.classList.contains("grandparent")) {
+          console.log("Grandparent");
+        } else if (e.target.classList.contains("parent")) {
+          console.log("Parent");
+        } else if (e.target.classList.contains("child")) {
+          console.log("Child");
+        }
       });
 
-      parent.addEventListener("click", () => {
-        console.log("Parent");
-        e.stopPropagation();
-      });
-
-      child.addEventListener("click", () => {
-        console.log("Child");
-      });
       // Checkpoint 3.2 What is event bubbling? How was it shown in Todo 3.5?
-      // Answer:
+      // Answer: Event bubbling is a concept in DOM. An event starts from the target element that triggered it
+      //         and then bubbles up through its ancestors in the DOM hierarchy.
 
       // Bonus Todo 3.6 Change your code in the previous todo such that "grandparent" is displayed first
 

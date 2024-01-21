@@ -1,38 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <script>
-        async function start() {
-            // Here's the api that you will be working with today https://reqres.in/
-            // Resource: https://www.youtube.com/watch?v=cuEtnrL9-H0
-            // Resource: https://www.freecodecamp.org/news/how-to-fetch-data-from-an-api-using-the-fetch-api-in-javascript/
+      async function start() {
+        // Here's the api that you will be working with today https://reqres.in/
+        // Resource: https://www.youtube.com/watch?v=cuEtnrL9-H0
+        // Resource: https://www.freecodecamp.org/news/how-to-fetch-data-from-an-api-using-the-fetch-api-in-javascript/
 
-            // Checkpoint 4.1 What are HTTP requests and reponses? What are the various HTTP verbs and what do they do?
-            // Answer: 
+        // Checkpoint 4.1 What are HTTP requests and reponses? What are the various HTTP verbs and what do they do?
+        // Answer: HTTP requests is a message sent by the client to the server, like a communication on the web. The client sends a request to a server,
+        //         then the server responds with the requested action/information. There are various HTTP verbs that are commonly used, and these are GET,
+        //         POST, PUT, DELETE. The GET verb retrieves the information from a server, and it is mainly used for most web page visits. The POST verb
+        //         sends the data to the server to create or update an information or resource, and it is mainly used for submitting forms and uploading files.
+        //         The PUT verb updates an existing resource on the server. Lastly, the DELETE verb deletes a resource from the server.
 
-            // Todo 4.1 Fetch the list of users. Outout the first and second page of users.
+        // Todo 4.1 Fetch the list of users. Outout the first and second page of users.
 
-            // Todo 4.2 Fetch the information about a single user. Display their information
+        const userResp = await fetch("https://reqres.in/api/users?page=1");
+        const userData = await userResp.json();
+        console.log("Page 1 Users:", userData.data);
 
-            // Todo 4.3 Create a user
+        const userResp2 = await fetch("https://reqres.in/api/users?page=2");
+        const userData2 = await userResp2.json();
+        console.log("Page 2 Users:", userData2.data);
 
-            // Todo 4.4 Update the information of the user that you have created
+        // Todo 4.2 Fetch the information about a single user. Display their information
 
-            // Todo 4.5 Delete the user that you have created
+        const user1 = 1;
+        const snglUser = await fetch("https://reqres.in/api/users/2");
+        const snglUserData = await snglUser.json();
+        console.log("Single User:", snglUserData.data);
 
-            // Checkpoint 4.2 What is the difference between callbacks, then-catch vs await-try-catch? When should you use one over the other
-            // Answer: 
+        // Todo 4.3 Create a user
+
+        const newUser = await fetch("https://reqres.in/api/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: "Stella Salle",
+            country: "Philippines",
+          }),
+        });
+
+        const createdUser = await newUser.json();
+        console.log("Created User:", createdUser);
+
+        // Todo 4.4 Update the information of the user that you have created
+
+        const updateUser = await fetch(
+          `https://reqres.in/api/users/${createdUser.id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: "Jeon Wonwoo",
+              country: "South Korea",
+            }),
+          }
+        );
+
+        const updatedUserDt = await updateUser.json();
+        console.log("Updated User:", updatedUserDt);
+
+        // Todo 4.5 Delete the user that you have created
+
+        const deleteUser = await fetch(
+          `https://reqres.in/api/users/${createdUser.id}`,
+          { method: "DELETE" }
+        );
+        if (deleteUser.ok) {
+          console.log("User Deleted Successfully");
+        } else {
+          console.error("Failed to delete the created user");
         }
-        start()
 
+        // Checkpoint 4.2 What is the difference between callbacks, then-catch vs await-try-catch? When should you use one over the other
+        // Answer: Then-catch, callbacks, and await-try-catch are mechanisms in JavaScript for handling asynchronous operations. Callbacks represent
+        //         a functional programming style, passing functions as arguments to handle asynchronous completion. Also, callbacks are preffered for
+        //         basic asynchronous tasks with straightforward error handling. The then-catch utilizes the promise object and its chaining capabilities,
+        //         offering a more object-oriented approach. Then-catch is preferably used when handling asynchronous operations with Promises, and chaining
+        //         multiple asynchronous operations. Lastly, the await-try-catch is used in JavaScript when working with asynchronous functions that return
+        //         Promises, and it involves the use of the await keyword within an async function along with a try-catch block. This is used when handling
+        //         multiple asynchronous operations (complex operations) in a more synchronous and readable manner.
+      }
+      start();
     </script>
-</body>
-
+  </body>
 </html>
