@@ -60,7 +60,7 @@
         lastName: lastNameInput.value,
       });
 
-      //console.log(results);
+      console.log(results);
     });
   </script>
 
@@ -77,20 +77,20 @@
     <script>
       // Todo 3.1 When the page has loaded, log "The page has loaded"
       // Resource: https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event
-      window.addEventListener("load", (event) => {
+      window.onload = function () {
         console.log("The page has loaded");
-      });
+      };
 
       // Todo 3.3b Add an event handler for the button created in 2.3a.
       //          The event handler should log "From addEventListener" when the button is clicked
       // Resource: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#using_addeventlistener
       //          - See Using addEventListener() section
 
-      const eventListenerBtn = document.getElementById("eventListenerBtn");
-      eventListenerBtn.addEventListener("click", () => {
+      const eventListenerBtnFunc = document.getElementById("eventListenerBtn");
+      function logEvent() {
         console.log("From addEventListener");
-      });
-
+      }
+      eventListenerBtnFunc.addEventListener("click", logEvent);
       // Checkpoint 3.1 What is the difference between inline event handlers and addEventListener? When should you use one over the other?
       // Answer: Inline event handlers are added directly inside HTML elements using attributes like "onclick". Inline event handlers
       //         are more used for simpler cases for consiceness and simple way to associate with handlers. On the other hand, addEventListener
@@ -99,19 +99,26 @@
       // Todo 3.5 add event listenders for the grandparent, parent, and child divs.
       //          When clicked, the grandparent, parent, and child should log "Grandparent", "Parent", and "Child" respectively
       // Resource: https://youtu.be/XF1_MlZ5l6M?si=QrNjKXg-xXV6yghW @ 4:00 of the video
-      // const grandparent = document.querySelector(".grandparent");
-      // const parent = document.querySelector(".parent");
-      // const child = document.querySelector(".child");
 
-      document.body.addEventListener("click", (e) => {
-        if (e.target.classList.contains("grandparent")) {
-          console.log("Grandparent");
-        } else if (e.target.classList.contains("parent")) {
-          console.log("Parent");
-        } else if (e.target.classList.contains("child")) {
-          console.log("Child");
-        }
-      });
+      const grandparent = document.querySelector(".grandparent");
+      const parent = document.querySelector(".parent");
+      const child = document.querySelector(".child");
+
+      function clickParent() {
+        console.log("Parent");
+      }
+
+      function clickChild() {
+        console.log("Child");
+      }
+
+      function clickGrandparent() {
+        console.log("Grandparent");
+      }
+
+      child.addEventListener("click", clickChild);
+      parent.addEventListener("click", clickParent);
+      grandparent.addEventListener("click", clickGrandparent);
 
       // Checkpoint 3.2 What is event bubbling? How was it shown in Todo 3.5?
       // Answer: Event bubbling is a concept in DOM. An event starts from the target element that triggered it
@@ -119,16 +126,46 @@
 
       // Bonus Todo 3.6 Change your code in the previous todo such that "grandparent" is displayed first
 
-      grandparent.addEventListener(
-        "click",
-        () => {
-          console.log("Grandparent");
-        },
-        true
-      );
+      // const grandparent = document.querySelector(".grandparent");
+      // const parent = document.querySelector(".parent");
+      // const child = document.querySelector(".child");
+
+      function clickParent() {
+        console.log("Parent");
+      }
+
+      function clickChild() {
+        console.log("Child");
+      }
+
+      function clickGrandparent() {
+        console.log("Grandparent");
+      }
+
+      child.addEventListener("click", clickChild);
+      parent.addEventListener("click", clickParent);
+      grandparent.addEventListener("click", clickGrandparent, true);
 
       // Bonus Todo 3.7 Change your code in the previous todo such that "parent" is never displayed
-      parent.style.pointerEvents = "none";
+      // const grandparent = document.querySelector(".grandparent");
+      // const parent = document.querySelector(".parent");
+      // const child = document.querySelector(".child");
+
+      function clickChild() {
+        console.log("Child");
+      }
+
+      function clickGrandparent() {
+        console.log("Grandparent");
+      }
+
+      child.addEventListener("click", clickChild);
+
+      parent.addEventListener("click", function (e) {
+        e.stopPropagation();
+      });
+
+      grandparent.addEventListener("click", clickGrandparent, true);
     </script>
   </body>
 </html>
